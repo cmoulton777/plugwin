@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Article">
+<head>
+    <meta charset="utf-8">
+    <title>Plugwin</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.plugwin.com/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.plugwin.com/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.plugwin.com/icons/favicon-16x16.png">
+    <link rel="manifest" href="https://cdn.plugwin.com/icons/manifest.json">
+    <link rel="mask-icon" href="https://cdn.plugwin.com/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="theme-color" content="#333333">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Access to googleyolo client library --> 
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
+    <!-- Import Stripe globally (for fraud protection) -->
+    <!-- <script type="text/javascript" src="https://js.stripe.com/v3/"></script> -->
+    <script>
+        function start() {
+            if (document.cookie.indexOf("token=JWT") === -1) {
+                gapi.load('auth2', function() {
+                    auth2 = gapi.auth2.init({
+                        client_id: '318537181220-ei690ljtl97vfjlocj9v4vrh53qk9q76.apps.googleusercontent.com'
+                    }).then(function() {googleDisabled = false; console.log("successfully loaded");},
+                    function(err) { 
+                        var element = document.getElementById("signinButton") 
+                        if (element) {
+                            element.onclick = function () {
+                                return false;
+                            };
+                            element.className = "social-login-btn disab";
+                        }
+                        googleDisabled = true;
+                        alert("Please enable third-party cookies in your browser or use a method other than Google to sign up or login. \n(Google's "+err.details.charAt(0).toLowerCase()+err.details.substr(1, err.details.length-2)+")");
+                    });
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <noscript>ERROR: You must enable Javascript to use this application.</noscript>
+    <script>
+        window.fbAsyncInit = function () {
+                FB.init({
+                    appId: '2036747339881300',
+                    xfbml: true,
+                    version: 'v2.12'
+                });
+                FB.AppEvents.logPageView();
+        };
+        function showCookieFail(){
+            alert("You must enable cookies to use this application.");
+        }
+        function checkCookie(){
+            var cookieEnabled = navigator.cookieEnabled;
+            if (!cookieEnabled){ 
+                document.cookie = "testcookie";
+                cookieEnabled = document.cookie.indexOf("testcookie")!=-1;
+            }
+            return cookieEnabled || showCookieFail();
+        }
+        (function(){
+            checkCookie();
+        })();
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <div id="root"></div>
+    <!-- Import bundled JavaScript -->
+    <script src="/bundle.js"></script>
+</body>
+
+</html>
